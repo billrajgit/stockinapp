@@ -4,11 +4,13 @@
 <div class="container">
     <h1>Form Produk</h1>
     <hr>
-    <form action="" method="post">
-        <div class="mb-3">
-            <label for="nama" class="form-label">Nama</label>
-            <input type="text" class="form-control" name="nama">
-        </div>
+    <form action="{{ isset($produk)
+                        ?route("produk.update",$produk)
+                        :route("produk.store") }}" method="post">
+        @csrf
+        @isset($produk)
+            @method("PUT")        
+        @endisset
         <div class="mb-3">
             <label for="kelompok_id" class="form-label">Kelompok</label>
             <select name="kelompok_id" id="kelompok_id" class="form-control">

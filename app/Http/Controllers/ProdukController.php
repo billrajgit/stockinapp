@@ -14,7 +14,9 @@ class ProdukController extends Controller
      */
     public function index()
     {
-        return view("pages.produk.list");
+        return view("pages.produk.list",[
+            "produk"=>produk::all()
+            ]);
     }
 
     /**
@@ -25,6 +27,7 @@ class ProdukController extends Controller
     public function create()
     {
         return view("pages.produk.form");
+        
     }
 
     /**
@@ -35,7 +38,23 @@ class ProdukController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         $request->validate([
+            "nama" => "required"
+            "kelompok_id" =>"required"
+            "satuan"=>"required"
+            "harga"=>"required"
+        ]);
+
+        Produk::create([
+            "nama" => $request->nama
+            "kelompok_id" =>$request->kelompok_id
+            "satuan"=>$request->satuan
+            "harga"=>$request->harga
+        ]);
+
+        return redirect()
+            ->route("produk.index")
+            ->with("info","Berhasil Tambah Produk");
     }
 
     /**
@@ -57,7 +76,9 @@ class ProdukController extends Controller
      */
     public function edit(Produk $produk)
     {
-        //
+          return view('pages.kelompok.form',[
+            "produk" => $produk
+        ]);
     }
 
     /**
@@ -69,7 +90,16 @@ class ProdukController extends Controller
      */
     public function update(Request $request, Produk $produk)
     {
-        //
+         $produk->update([
+            "nama" => $request->nama
+             "kelompok_id" =>$request->kelompok_id
+            "satuan"=>$request->satuan
+            "harga"=>$request->harga
+        ]);
+
+        return redirect()
+                ->route("produk.index")
+                ->with("info","Berhasil Update Produk");
     }
 
     /**
